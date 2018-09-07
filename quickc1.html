@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Test</title>
+  <meta charset="UTF-8">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">  
+<style>
+.header
+{
+	background-color: LightSeaGreen;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 15em;
+    color: white;
+}
+.body1
+{
+	background-image: url("qc.jpg") ;
+}
+.box{ 
+  background-color: white;
+  position: relative;
+  opacity :0.6;
+  height: 100%;
+  width: 70%;
+  left: 15%;
+  top: 10%;
+}
+.box:hover {
+    opacity: 1.5;
+    filter: alpha(opacity=100); /* For IE8 and earlier */
+}
+input[type=text], select, textarea {
+    width: 70%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 6px;
+    margin-bottom: 16px;
+}
+input[type=tel] {
+    width: 70%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 6px;
+    margin-bottom: 16px;
+}
+input[type=Date] {
+    width: 70%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 6px;
+    margin-bottom: 16px;
+}
+input[type=month] {
+    width: 70%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 6px;
+    margin-bottom: 16px;
+}
+
+input[type=Button] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type=Button]:hover {
+    background-color: #45a049;
+}
+input[type=submit] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: #45a049;
+}
+
+.container {
+    border-radius: 5px;
+    padding: 60px;
+}
+#Div2 {
+  display: none;
+}
+
+</style>
+
+</head>
+<body>
+    <div class="header" style="height: 130px;width: 100%">
+<div class-"row">
+<div class="col-md-4">
+        <h2>NAME:</h2> <h2>QC ID: </h2>
+</div>
+<div class="col-md-4">
+        <h2>MOBILE:</h2> <h2>EmailID: </h2>  
+</div>
+</div>
+</div>
+    <div class="body1" style="height: 100%;width: 100%">
+<div class="box">
+  <div class="container">
+  <form action="" name = myForm2 onsubmit="return(validate());">
+    <label for="fname">Last Year Of graduation *</label><br>
+    <input type="Date" id="log" name="graduation" placeholder="Your number "><br><br>
+
+    <label for="lname">Total Experience in month *</label><br>
+    <input type="month"id="Experience" name="Experience" placeholder="Your Experience"><br>
+
+    <label for="country">Marital Status *</label><br>
+    <input type="radio" name="Marital" value="Single" checked> Single<br>
+    <input type="radio" name="Marital" value="Married"> Married<br><br>
+
+    <label for="fname">Type of credit card</label><br>
+     <select>
+  <option value="">xyz</option>
+  <option value="">xyz</option>
+  <option value="">abc</option>
+  <option value="">cde</option>
+  </select> <br>
+
+    <label for="fname">College Name</label><br>
+    <input type="text" id="college" name="college" placeholder="Your College><br>
+
+    <label for="fname">Residence</label><br>
+    <input type="text" id="cn" name="Residence" placeholder="Your Residence"><br>
+   
+   <label for="fname">Frequently used app</label><br>
+    <select>
+  <option value="">Amazon</option>
+  <option value="">Flipkart</option>
+  <option value="">Paytm</option>
+  <option value="">Facebook</option>
+  <option value="">Ebay</option>
+  <option value="">twitter</option>
+  <option value="">instagram</option>
+  </select><br>
+
+
+
+    <input type="Submit" value="Submit">
+  </form>
+</div>
+</div>
+</div>
+</div>
+</body>
+<script type="text/javascript">
+   <!--
+      // Form validation code will come here.
+      function validate()
+      {
+      
+         if( document.myForm2.graduation.value == "" )
+         {
+            alert( "Please provide your graduation" );
+            document.myForm.graduation.focus() ;
+            return false;
+         }
+         
+         if( document.myForm.Experience.value == "" )
+         {
+            alert( "Please provide your Experience" );
+            document.myForm.Experience.focus() ;
+            return false;
+         }
+         
+         if( document.myForm.Marital.value == "" )
+         {
+            alert( "Please provide your Marital Staus" );
+            document.myForm.Marital.focus() ;
+            return false;
+         }
+         if( document.myForm.college.value == "" )
+         {
+            alert( "Please provide your college name" );
+            document.myForm.college.focus() ;
+            return false;
+         }
+         if( document.myForm.Residence.value == "" )
+         {
+            alert( "Please provide your City" );
+            document.myForm.Residence.focus() ;
+            return false;
+         }
+    
+         
+         return( true );
+      }
+   //-->
+</script>
+</html>
