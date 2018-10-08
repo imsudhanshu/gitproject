@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>Bootstrap MultiStep Form</title>
+      <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js'></script>
+
+  
+  <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
+
+      <style>
+      @import url(https://fonts.googleapis.com/css?family=Montserrat);
+
+/*basic reset*/
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    height: 100%;
+    background-image: url("qc.jpg");}
+
+body {
+    font-family: montserrat, arial, verdana;
+    background: transparent;
+}
+
+/*form styles*/
+#msform {
+    text-align: center;
+    position: relative;
+    margin-top: 30px;
+}
+
+#msform fieldset {
+    background: white;
+    border: 0 none;
+    border-radius: 0px;
+    box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
+    padding: 20px 30px;
+    box-sizing: border-box;
+    width: 80%;
+    margin: 0 10%;
+
+    /*stacking fieldsets above each other*/
+    position: relative;
+}
+
+/*Hide all except first fieldset*/
+#msform fieldset:not(:first-of-type) {
+    display: none;
+}
+
+/*inputs*/
+#msform input, #msform textarea, #msform select {
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 0px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: montserrat;
+    color: #2C3E50;
+    font-size: 13px;
+}
+
+#msform input:focus, #msform textarea:focus {
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    border: 1px solid #ee0979;
+    outline-width: 0;
+    transition: All 0.5s ease-in;
+    -webkit-transition: All 0.5s ease-in;
+    -moz-transition: All 0.5s ease-in;
+    -o-transition: All 0.5s ease-in;
+}
+
+/*buttons*/
+#msform .action-button {
+    width: 100px;
+    background: yellowgreen;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 25px;
+    cursor: pointer;
+    padding: 10px 5px;
+    margin: 10px 5px;
+}
+
+#msform .action-button:hover, #msform .action-button:focus {
+    box-shadow: 0 0 0 2px white, 0 0 0 3px #ee0979;
+}
+
+#msform .action-button-previous {
+    width: 100px;
+    background: #C5C5F1;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 25px;
+    cursor: pointer;
+    padding: 10px 5px;
+    margin: 10px 5px;
+}
+
+#msform .action-button-previous:hover, #msform .action-button-previous:focus {
+    box-shadow: 0 0 0 2px white, 0 0 0 3px #C5C5F1;
+}
+
+/*headings*/
+.fs-title {
+    font-size: 18px;
+    text-transform: uppercase;
+    color: #2C3E50;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+    font-weight: bold;
+}
+
+.fs-subtitle {
+    font-weight: normal;
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/*progressbar*/
+#progressbar {
+    margin-bottom: 30px;
+    overflow: hidden;
+    /*CSS counters to number the steps*/
+    counter-reset: step;
+}
+
+#progressbar li {
+    list-style-type: none;
+    color: white;
+    text-transform: uppercase;
+    font-size:12px;
+    width: 50%;
+    float: left;
+    position: relative;
+    letter-spacing: 1px;
+}
+
+#progressbar li:before {
+    content: counter(step);
+    counter-increment: step;
+    width: 24px;
+    height: 24px;
+    line-height: 26px;
+    display: block;
+    font-size: 12px;
+    color: #333;
+    background: white;
+    border-radius: 25px;
+    margin: 0 auto 10px auto;
+}
+
+/*progressbar connectors*/
+#progressbar li:after {
+    content: '';
+    width: 100%;
+    height: 2px;
+    background: white;
+    position: absolute;
+    left: -50%;
+    top: 9px;
+    z-index: -1; /*put it behind the numbers*/
+}
+
+#progressbar li:first-child:after {
+    /*connector not needed before the first step*/
+    content: none;
+}
+
+/*marking active/completed steps green*/
+/*The number of the step and the connector before it = green*/
+#progressbar li.active:before, #progressbar li.active:after {
+    background: yellowgreen;
+    color: white;
+}
+
+
+/* Not relevant to this form */
+.dme_link {
+    margin-top: 30px;
+    text-align: center;
+}
+.dme_link a {
+    background: #FFF;
+    font-weight: bold;
+    color: #ee0979;
+    border: 0 none;
+    border-radius: 25px;
+    cursor: pointer;
+    padding: 5px 25px;
+    font-size: 12px;
+}
+
+.dme_link a:hover, .dme_link a:focus {
+    background: #C5C5F1;
+    text-decoration: none;
+}
+.container {
+    
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 12px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+    border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.container input:checked ~ .checkmark {
+    background-color: yellowgreen;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.container .checkmark:after {
+    top: 9px;
+    left: 9px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+}
+   
+
+
+  </style>
+
+  
+</head>
+
+<body>
+
+  <!-- MultiStep Form -->
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <form id="msform">
+            <!-- progressbar -->
+            <ul id="progressbar">
+                <li class="active">First Step</li>
+                <li>Second Step</li>
+            </ul>
+            <!-- fieldsets -->
+            <fieldset>
+                <h2 class="fs-title">Personal Details</h2>
+                <h3 class="fs-subtitle">Tell us something more about you</h3>
+                <div class="row">
+                    <div class="col-md-6
+                <input type="text" name="mobile Number" placeholder="Mobile Number" pattern="^\d{10}$"/>
+                <input type="text" name="email" placeholder="Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"/>
+                <input placeholder = "Date of Birth" class = "textbox-n" type = "text" onfocus = "(this.type = 'date')"  id = "date">
+                 <input type="text" name="Designation" placeholder="Designation"/>
+                  <input type="text" name="CTC" placeholder="CTC"/>
+            </div>
+                    <div class="col-md-6">
+                        <input type="text" name="mobile Number" placeholder="Secondary Mobile" pattern="^\d{10}$"/>
+                         <input type="text" name="City" placeholder="City"/>
+                         <label class="container">
+Self Employed
+  <input type="radio" checked="checked" name="radio">
+  <span class="checkmark"></span>
+</label>
+<label class="container">Salaried
+  <input type="radio" name="radio">
+  <span class="checkmark"></span>
+</label>
+<input type="text" name="department" placeholder="department"/>
+    
+                        </div>
+
+        </div>
+                <input type="button" name="next" class="next action-button" value="Next"/>
+            </fieldset>
+            <fieldset>
+                <h2 class="fs-title">Academic and social Appearences</h2>
+                <h3 class="fs-subtitle">Your presence on the social network and academics detail</h3>
+                <div class="row">
+                    <div class = "col-md-6">
+                <select name="college"><option placehoder>College graduation year</option>
+      <option value="2019">2019</option>
+       <option value="2018">2018</option>
+        <option value="2017">2017</option>
+         <option value="2016">2016</option>
+          <option value="2015">2015</option>
+           <option value="2014">2014</option>
+            <option value="2013">2013</option>
+             <option value="2012">2012</option>
+              <option value="2011">2011</option>
+               <option value="2010">2010</option>
+                <option value="2009">2009</option>
+                 <option value="2008">2008</option>
+                 <option value="2007">2007</option>
+                  <option value="2006">2006</option>
+                   <option value="2005">2005</option>
+                    <option value="2004">2004</option>
+                     <option value="2003">2003</option>
+                      <option value="2002">2002</option>
+                       <option value="2001">2001</option></select></p>
+                       <select name="experience"><option placeholder>Experiences in months</option>
+       <option value="01-06">01-06</option>
+       <option value="06-12">06-12</option>
+       <option value="12-18">12-18</option>
+       <option value="18-24">18-24</option>
+       <option value="24-30">24-30</option>
+       <option value="30+">30+</option>
+       </select><br><br>
+       <label class="container">
+Married
+  <input type="radio" checked="checked" name="radio">
+  <span class="checkmark"></span>
+</label>
+<label class="container">Not-Married
+  <input type="radio" name="radio">
+  <span class="checkmark"></span>
+</label><br><br>
+                <select name="credit card"><option placeholder>Credit card type</option>
+        <option value="Auto / Fuel Credit Cards">Auto / Fuel Credit Cards</option>
+       <option value="Balance transfer Credit Cards">Balance transfer Credit Cards </option>
+       <option value="Business Credit Cards">Business Credit Cards </option>
+       <option value="Cashback cards">Cashback cards</option>
+       <option value="Classic Credit Cards">Classic Credit Cards</option>
+       <option value="Co-branded Credit Cards">Co-branded Credit Cards</option>
+       <option value="Contactless Credit Cards">Contactless Credit Cards</option>
+     <option value="Credit cards for Women ">Credit cards for Women </option>
+   <option value="Entertainment Cards">Entertainment Cards</option>
+    <option value="Gold Credit Cards">Gold Credit Cards</option>
+    <option value="Lifestyle Cards ">Lifestyle Cards </option>
+    <option value="Platinum Credit Cards">Platinum Credit Cards</option>
+    <option value="Premium/Signature Credit Cards">Premium/Signature Credit Cards</option>
+    <option value="Prepaid Credit Cards">Prepaid Credit Cards</option>
+    <option value="Silver Credit Cards ">Silver Credit Cards </option>
+    <option value="Titanium Credit Cards">Titanium Credit Cards</option>
+    <option value="Travel Credit Cards">Travel Credit Cards</option></p>
+  </select>
+            </div>
+            <div class="col-md-6">
+                <select class="selectpicker" data-live-search="true" ><option placeholder>Select your college</option>
+                    <option>Indian Institute of Technology Madras</option>
+
+<option>Indian Institute of Technology Bombay</option>
+
+<option>Indian Institute of Technology Kharagpur</option>
+
+<option>Indian Institute of Technology Delhi</option>
+
+<option>Indian Institute of Technology Kanpur</option>
+
+<option>Indian Institute of Technology Roorkee</option>
+
+<option>Indian Institute of Technology Guwahati</option>
+
+<option>Anna University</option>
+
+<option>Jadavpur University</option>
+
+<option>Indian Institute of Technology Hyderabad</option>
+
+<option>National Institute of Technology Tiruchirappalli</option>
+
+<option>National Institute of Technology Rourkela</option>
+
+<option>Vellore Institute of Technology</option>
+
+<option>Institute of Chemical Technology</option>
+
+<option>Indian Institute of Technology Indore</option>
+
+<option>Birla Institute of Technology & Science -Pilani</option>
+
+<option>Indian Institute of Engineering Science and Technology, Shibpur</option>
+
+<option>Indian Institute of Technology Bhubaneswar</option>
+
+<option>Indian Institute of Technology Patna</option>
+
+<option>Jamia Millia Islamia</option>
+
+<option>Indian Institute of Technology Ropar</option>
+
+<option>National Institute of Technology Surathkal</option>
+
+<option>Indian Institute of Technology (Indian School of Mines)</option>
+
+<option>College of Engineering, Pune</option>
+
+<option>Shanmugha Arts Science Technology & Research Academy (SASTRA) 1984</option>
+
+<option>Thapar University</option>
+
+<option>Sri Sivasubramaniya Nadar College of Engineering</option>
+
+<option>Indian Institute of Space Science and Technology</option>
+
+<option>Indian Institute of Technology Mandi</option>
+
+<option>Indian Institute of Technology Gandhinagar</option>
+
+<option>Birla Institute of Technology</option>
+
+<option>Indian Institute of Technology (BHU), Varanasi</option>
+
+
+</select>
+<br>
+<br>
+<br>
+
+<select name="residence"><option placeholder>Your residence</option>
+    <option value="Owned by self">Owned by self</option>
+    <option value="Owned by Parent">Owned by Parent</option>
+    <option value="Rented with Family">Rented with Family</option>
+    <option value="Rented with friends">Rented with friends</option>
+    <option value="Rented staying alone">Rented staying alone</option>
+    <option value="Guest House">Guest House</option>
+    <option value="Hostel">Hostel</option></select><br><br><br><br>
+<select name="app"><option placeholder>Frequently Used App</option>
+    <option value="facebook">Facebook/Instagram/Twitter</option>
+    <option value="zomato/swiggy">zomato/swiggy</option>
+    <option value="Pintrest">Pintrest</option>
+    <option value="Quora">Quora</option>
+    <option value="Indeed">Indeed</option>
+    <option value="Linkedin">LinkedIN</option>
+    <option value="Uber/Ola">Uber/ola</option></select>
+
+
+            </div>
+        </div><br>
+        <br>
+
+                <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
+                <input type="submit" name="submit" class="submit action-button" value="Submit"/>
+            </fieldset>
+        </form>
+    </div>
+</div>
+<!-- /.MultiStep Form -->
+  
+
+  
+
+    <script>
+        //jQuery time
+var current_fs, next_fs, previous_fs; //fieldsets
+var left, opacity, scale; //fieldset properties which we will animate
+var animating; //flag to prevent quick multi-click glitches
+
+$(".next").click(function(){
+    if(animating) return false;
+    animating = true;
+    
+    current_fs = $(this).parent();
+    next_fs = $(this).parent().next();
+    
+    //activate next step on progressbar using the index of next_fs
+    $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+    
+    //show the next fieldset
+    next_fs.show(); 
+    //hide the current fieldset with style
+    current_fs.animate({opacity: 0}, {
+        step: function(now, mx) {
+            //as the opacity of current_fs reduces to 0 - stored in "now"
+            //1. scale current_fs down to 80%
+            scale = 1 - (1 - now) * 0.2;
+            //2. bring next_fs from the right(50%)
+            left = (now * 50)+"%";
+            //3. increase opacity of next_fs to 1 as it moves in
+            opacity = 1 - now;
+            current_fs.css({
+        'transform': 'scale('+scale+')',
+        'position': 'absolute'
+      });
+            next_fs.css({'left': left, 'opacity': opacity});
+        }, 
+        duration: 800, 
+        complete: function(){
+            current_fs.hide();
+            animating = false;
+        }, 
+        //this comes from the custom easing plugin
+        easing: 'easeInOutBack'
+    });
+});
+
+$(".previous").click(function(){
+    if(animating) return false;
+    animating = true;
+    
+    current_fs = $(this).parent();
+    previous_fs = $(this).parent().prev();
+    
+    //de-activate current step on progressbar
+    $("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
+    
+    //show the previous fieldset
+    previous_fs.show(); 
+    //hide the current fieldset with style
+    current_fs.animate({opacity: 0}, {
+        step: function(now, mx) {
+            //as the opacity of current_fs reduces to 0 - stored in "now"
+            //1. scale previous_fs from 80% to 100%
+            scale = 0.8 + (1 - now) * 0.2;
+            //2. take current_fs to the right(50%) - from 0%
+            left = ((1-now) * 50)+"%";
+            //3. increase opacity of previous_fs to 1 as it moves in
+            opacity = 1 - now;
+            current_fs.css({'left': left});
+            previous_fs.css({'transform': 'scale('+scale+')', 'opacity': opacity});
+        }, 
+        duration: 800, 
+        complete: function(){
+            current_fs.hide();
+            animating = false;
+        }, 
+        //this comes from the custom easing plugin
+        easing: 'easeInOutBack'
+    });
+});
+
+$(".submit").click(function(){
+    return false;
+})
+
+
+
+    $(".js-example-placeholder-single").select2({
+    placeholder:"select your Graduation year",
+    allowClear: true
+});
+    
+</script>
+
+
+
+
+</body>
+
+</html>
